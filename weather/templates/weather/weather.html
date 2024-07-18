@@ -25,4 +25,11 @@
         <p>Weather data is not available for {{ city }}.</p>
     {% endif %}
     <a href="{% url 'index' %}" class="btn btn-secondary">Search another city</a>
+
+    <h2>Previous Searches</h2>
+    <ul>
+        {% for city in search_history %}
+            <li><a href="{% url 'weather' city=city %}">{{ city }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

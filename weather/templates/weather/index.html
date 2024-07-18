@@ -1,17 +1,23 @@
 {% extends "weather/base.html" %}
 
-{% block title %}Search City{% endblock %}
+{% block title %}Weather App{% endblock %}
 
 {% block content %}
-  <h1>Search for a city</h1>
-  <form method="post" action="{% url 'index' %}">
-    {% csrf_token %}
-    <label for="id_city">City:</label>
-    {{ form.city }}
-    <button type="submit" class="btn">Get Weather</button>
-  </form>
-{% endblock %}
+    <h1>Weather App</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Get Weather</button>
+    </form>
 
+    <h2>Previous Searches</h2>
+    <ul>
+        {% for city in search_history %}
+            <li><a href="{% url 'weather' city=city %}">{{ city }}</a></li>
+        {% endfor %}
+        {% endblock %}
+
+    </ul>
 {% block js %}
   {{ block.super }}
   <script>

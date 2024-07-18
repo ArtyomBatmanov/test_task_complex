@@ -16,9 +16,13 @@ class IndexView(FormView):
         response = redirect('weather', city=city)
         search_history = self.request.COOKIES.get('search_history')
         if search_history:
-            search_history = json.loads(search_history)
+            try:
+                search_history = json.loads(search_history)
+            except json.JSONDecodeError:
+                search_history = []
         else:
             search_history = []
+
         if city not in search_history:
             search_history.append(city)
         response.set_cookie('search_history', json.dumps(search_history))
@@ -28,7 +32,10 @@ class IndexView(FormView):
         context = super().get_context_data(**kwargs)
         search_history = self.request.COOKIES.get('search_history')
         if search_history:
-            context['search_history'] = json.loads(search_history)
+            try:
+                context['search_history'] = json.loads(search_history)
+            except json.JSONDecodeError:
+                context['search_history'] = []
         else:
             context['search_history'] = []
         return context
@@ -102,7 +109,6 @@ class WeatherView(TemplateView):
         except requests.RequestException as e:
             print(f"Error fetching coordinates: {e}")
             return None
-
 
 def city_autocomplete(request):
     if 'term' in request.GET:
