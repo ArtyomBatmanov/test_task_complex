@@ -22,7 +22,8 @@ git clone https://github.com/ArtyomBatmanov/test_task_avtomatika.git
 ### 2. Сборка контейнера
 
 ```bash
-docker compose built```
+docker compose built
+```
 
 ### 3. Запуск контейнера
 
