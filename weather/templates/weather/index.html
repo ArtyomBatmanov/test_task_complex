@@ -1,0 +1,28 @@
+{% extends "weather/base.html" %}
+
+{% block title %}Search City{% endblock %}
+
+{% block content %}
+  <h1>Search for a city</h1>
+  <form method="post" action="{% url 'index' %}">
+    {% csrf_token %}
+    <label for="id_city">City:</label>
+    {{ form.city }}
+    <button type="submit" class="btn">Get Weather</button>
+  </form>
+{% endblock %}
+
+{% block js %}
+  {{ block.super }}
+  <script>
+    $(document).ready(function() {
+        $("#id_city").autocomplete({
+            source: "{% url 'city_autocomplete' %}",
+            minLength: 2,
+            select: function(event, ui) {
+                $('#id_city').val(ui.item.value);
+            }
+        });
+    });
+  </script>
+{% endblock %}

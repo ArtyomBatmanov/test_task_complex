@@ -1,0 +1,28 @@
+{% extends "weather/base.html" %}
+
+{% block title %}Weather in {{ city }}{% endblock %}
+
+{% block content %}
+    <h1>Weather in {{ city }}</h1>
+    {% if weather %}
+        <h2>Current Weather</h2>
+        <p>Time: {{ weather.current.time }}</p>
+        <p>Temperature: {{ weather.current.temperature_2m }}°C</p>
+        <p>Wind Speed: {{ weather.current.wind_speed_10m }} m/s</p>
+
+        <h2>Hourly Forecast</h2>
+        <ul>
+            {% for hour in weather.hourly %}
+                <li>
+                    <strong>{{ hour.time }}</strong> -
+                    Temperature: {{ hour.temperature }}°C,
+                    Humidity: {{ hour.humidity }}%,
+                    Wind Speed: {{ hour.wind_speed }} m/s
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Weather data is not available for {{ city }}.</p>
+    {% endif %}
+    <a href="{% url 'index' %}" class="btn btn-secondary">Search another city</a>
+{% endblock %}
